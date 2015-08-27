@@ -60,12 +60,13 @@ public class UserGroup implements Component
 	
 	public User findUser(String userName, UserGroup group)
 	{
-		for(Component comp: group.getGroup())
+		ArrayList<Component> groupList = group.getGroup();
+		for(Component comp: groupList)
 		{
 			if(!comp.isGroup())
 			{
 				User user = (User)comp;
-				if(user.getUserName() == userName)
+				if(user.getUserName().equals(userName))
 				{
 					return user;
 				}

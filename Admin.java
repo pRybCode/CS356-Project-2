@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +20,7 @@ public class Admin extends JFrame
 	public static Admin instance;
 	private JPanel contentPane;
 	//Initial list
-	public UserGroup rootGroup = new UserGroup("Root");
+	public static UserGroup rootGroup = new UserGroup("Root");
 	
 	public Admin()
 	{
@@ -119,6 +120,8 @@ public class Admin extends JFrame
 					UserUI ui = new UserUI(user);
 					ui.run();
 				}
+				else
+					System.out.println("Not Found!");
 			}
 		});
 		opnUsrView.setBounds(380, 125, 180, 50);
@@ -163,7 +166,7 @@ public class Admin extends JFrame
 			{
 				int num = 0;
 				numTweetsVisitor visitor = new numTweetsVisitor();
-				visitor.visit(rootGroup);
+				num += visitor.visit(rootGroup);
 				JOptionPane.showMessageDialog(instance, "The total number of Tweets: " + num);
 			}
 		});
@@ -177,7 +180,7 @@ public class Admin extends JFrame
 			public void actionPerformed(ActionEvent arg0)
 			{
 				double num = 0.0;
-				double denom = 0.0;
+				int denom = 0;
 				numPositiveVisitor visitorPos = new numPositiveVisitor();
 				numTweetsVisitor visitorNum = new numTweetsVisitor();
 				num += visitorPos.visit(rootGroup);
@@ -248,7 +251,8 @@ public class Admin extends JFrame
 		}
 		else
 		{
-			for(Component comps: group.getGroup())
+			ArrayList<Component> groupList = group.getGroup();
+			for(Component comps: groupList)
 			{
 				if(comps.isGroup())
 				{

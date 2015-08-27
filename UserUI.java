@@ -43,16 +43,23 @@ public class UserUI extends JFrame
 		final JTextArea followArea = new JTextArea();
 		followArea.setEditable(true);
 		final JLabel followLabel = new JLabel();
+		final JTextArea followingArea = new JTextArea();
+		followingArea.setText(user.followingList());
+		followingArea.setEditable(false);
 		final JTextArea tweetArea = new JTextArea();
 		final JLabel tweetLabel = new JLabel();
+		final JTextArea newsFeedArea = new JTextArea();
 		
-		//Follow Button
+		//Follow Button Follow User Button TODO
 		JButton btnFollowUser = new JButton("Follow User");
 		btnFollowUser.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				
+				User newFollow = Admin.instance.rootGroup.findUser(followArea.getText(), Admin.instance.rootGroup);
+				user.followUser(newFollow);
+				newFollow.followed(user);
+				followingArea.setText(user.followingList());
 			}
 		});
 		btnFollowUser.setBounds(200, 10, 200, 30);
@@ -60,29 +67,37 @@ public class UserUI extends JFrame
 		
 		followArea.setBounds(10, 10, 190, 30);
 		contentPane.add(followArea);
-				
+		
+		followingArea.setBounds(10, 45, 300, 100);
+		followingArea.setEditable(false);
+		contentPane.add(followingArea);
+		
 		tweetArea.setBounds(10, 170, 230, 50);
 		contentPane.add(tweetArea);
 		
+		newsFeedArea.setBounds(10, 230, 300, 100);
+		newsFeedArea.setEditable(false);
+		newsFeedArea.setText(user.newsFeedString());
+		contentPane.add(newsFeedArea);
+		
 		JList<String> tweets = new JList<String>();
 		
+		//Post tweet button TODO
 		JButton btnTweet = new JButton("Post Tweet");
 		btnTweet.addActionListener( new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
+				user.writeTweet(tweetArea.getText());
 				
+				newsFeedArea.setText(user.newsFeedString());
 			}
 		});
 		btnTweet.setBounds(270, 170, 160, 40);
 		contentPane.add(btnTweet);
-		
-		DefaultListModel<String> model2 = new DefaultListModel<String>();
-		JList list_1 = new JList();
-		list_1.setBounds(10, 233, 427, 136);
-		contentPane.add(list_1);
 	}
 	
+	//open the userUI
 	public void run()
 	{
 		EventQueue.invokeLater(new Runnable()

@@ -11,6 +11,7 @@ public class User implements Component
 	public User(String createUser)
 	{
 		user = createUser;
+		following.add(this);
 	}
 	public String getUserName() 
 	{
@@ -27,25 +28,45 @@ public class User implements Component
 		return user;
 	}
 	
+	public String newsFeedString()
+	{
+		String retVal = "";
+		for(String tweet: newsFeed)
+		{
+			retVal += tweet + "\n";
+		}
+		return retVal;
+	}
+	
+	public String followingList()
+	{
+		String retVal = "Following: \n";
+		for(User user: following)
+		{
+			retVal += user.getUserName() + "\n";
+		}
+		return retVal;
+	}
+	
 	public void followUser(User userID) 
 	{
 		following.add(userID);
-		userID.followed(this);
 	}
 	
 	public void writeTweet(String tweet) 
 	{
-		tweets.add(tweet);
-		update(this, tweet);
+		tweets.add(user + ": " + tweet);
+		update(this, tweets.get(tweets.size()-1));
+		
 	}
 
 	public User update(User user, String tweet) 
 	{
 		if(following.contains(user))
 		{
-			newsFeed.add(user + ": " + tweet);
+			newsFeed.add(tweet);
 		}
-		return this;
+		return null;
 	}
 	
 	public void followed(User follower)

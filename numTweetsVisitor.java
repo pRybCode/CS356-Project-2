@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class numTweetsVisitor extends Visitor
 {
@@ -8,7 +10,8 @@ public class numTweetsVisitor extends Visitor
 		{
 			int num = 0;
 			UserGroup group = (UserGroup)userComp;
-			for(Component comp: group.getGroup())
+			ArrayList<Component> groupList = group.getGroup();
+			for(Component comp: groupList)
 			{
 				num += visit(comp);
 			}
