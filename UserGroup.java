@@ -1,53 +1,81 @@
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class UserGroup implements Component
 {
-	Map<String, UserGroup> numUserGroup;
-	private String UserGroup;
-	private long creationTime;
+	private ArrayList<Component> groupMembers = new ArrayList<Component>();
+	private String userGroup;
 	
-	public UserGroup(String createUserGroup) 
+	public UserGroup(String groupName) 
 	{
-		setCreationTime(System.currentTimeMillis());
-		this.UserGroup = createUserGroup;
+		userGroup = groupName;
 	}
 	
-	public void setCreationTime(long creationTime) 
+	public void add(Component comp)
 	{
-		this.creationTime = creationTime;
+		groupMembers.add(comp);
 	}
 	
-	public long getCreationTime() 
+	public String getGroupName() 
 	{
-		return creationTime;
-	}
-	
-	public String getUserGroup() 
-	{
-		return UserGroup;
+		return userGroup;
 	}
 
-	public void setUserName(String UserGroup)
+	public void setGroupName(String groupName)
 	{
-		this.UserGroup = UserGroup;
+		userGroup = groupName;
 	}
 	
-	public String toString() 
+	public String toString()
 	{
-		return UserGroup;
-	}
-	
-	public String validateUserGroup() 
-	{
-		for (Entry<String, UserGroup> entry : numUserGroup.entrySet())
+		String retVal = " ~" + userGroup;
+		for(Component comps: groupMembers)
 		{
-			if (entry == numUserGroup || ((UserGroup) numUserGroup).getUserGroup().contains(" ")) 
+			retVal +=  "\n" + "   -" + comps.toString();
+		}
+		return retVal;
+	}
+	
+	public Component update(User poster, String tweet) 
+	{
+		ArrayList<Component> updateGroupMem = new ArrayList<Component>();
+		for(Component comps: groupMembers)
+		{
+			updateGroupMem.add(comps.update(poster, tweet));
+		}
+		groupMembers = updateGroupMem;
+		return this;
+	}
+	
+	public boolean isGroup()
+	{
+		return true;
+	}
+	
+	public ArrayList<Component> getGroup()
+	{
+		return groupMembers;
+	} 
+	
+	public User findUser(String userName, UserGroup group)
+	{
+		for(Component comp: group.getGroup())
+		{
+			if(!comp.isGroup())
 			{
-				return "This UserGroup ID is not a valid one. Please try again.";
+				User user = (User)comp;
+				if(user.getUserName() == userName)
+				{
+					return user;
+				}
+			}
+			else
+			{
+				UserGroup uGroup = (UserGroup)comp;
+				return findUser(userName, uGroup);
 			}
 		}
-		return "";
+		return null;
 	}
-	
 }

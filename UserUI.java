@@ -23,36 +23,12 @@ public class UserUI extends JFrame
 {
 
 	private JPanel contentPane;
-	private UserUI ui;
 	private User user;
-		
-	public void run()
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run() 
-			{
-				try 
-				{
-					UserUI frame = new UserUI();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	//Copy a pre-existing ui
-	public UserUI(UserUI ui, User user) 
-	{
-		this.ui = ui;
-		this.user = user;
-	}
 	
-	public UserUI() 
+	public UserUI(User selectedUser) 
 	{
+		user = selectedUser;
+		
 		//Initialize the window
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,10 +39,11 @@ public class UserUI extends JFrame
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		JTextArea followArea = new JTextArea();
+		//Init ui components
+		final JTextArea followArea = new JTextArea();
+		followArea.setEditable(true);
 		final JLabel followLabel = new JLabel();
-		JTextArea tweetArea = new JTextArea();
+		final JTextArea tweetArea = new JTextArea();
 		final JLabel tweetLabel = new JLabel();
 		
 		//Follow Button
@@ -75,29 +52,16 @@ public class UserUI extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				followArea.setText(followLabel.getText());
-				System.out.println("Stalking User!");
-			}
-		});
-		btnFollowUser.setBounds(233, 10, 204, 36);
-		contentPane.add(btnFollowUser);
-		
-		followArea.addContainerListener(new ContainerAdapter() 
-		{
-			public void componentAdded(ContainerEvent arg0) 
-			{
 				
 			}
 		});
-		followArea.setBounds(10, 12, 194, 34);
+		btnFollowUser.setBounds(200, 10, 200, 30);
+		contentPane.add(btnFollowUser);
+		
+		followArea.setBounds(10, 10, 190, 30);
 		contentPane.add(followArea);
-		
-		DefaultListModel<String> model = new DefaultListModel<String>();
-		JList list = new JList();
-		list.setBounds(10, 68, 427, 91);
-		contentPane.add(list);
-		
-		tweetArea.setBounds(10, 170, 235, 52);
+				
+		tweetArea.setBounds(10, 170, 230, 50);
 		contentPane.add(tweetArea);
 		
 		JList<String> tweets = new JList<String>();
@@ -107,17 +71,34 @@ public class UserUI extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				tweetArea.setText(tweetLabel.getText());
-				System.out.println("Posted Tweet!");
-				//tweets.add(textArea_1.getText());
+				
 			}
 		});
-		btnTweet.setBounds(274, 170, 163, 45);
+		btnTweet.setBounds(270, 170, 160, 40);
 		contentPane.add(btnTweet);
 		
 		DefaultListModel<String> model2 = new DefaultListModel<String>();
 		JList list_1 = new JList();
 		list_1.setBounds(10, 233, 427, 136);
 		contentPane.add(list_1);
+	}
+	
+	public void run()
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run() 
+			{
+				try 
+				{
+					UserUI frame = new UserUI(user);
+					frame.setVisible(true);
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }

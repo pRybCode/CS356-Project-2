@@ -1,18 +1,16 @@
 import java.util.*;
 
-public class User
+public class User implements Component
 {
 	private String user;
-	private List<User> followers = new ArrayList<User>();
-	private List<User> following = new ArrayList<User>();
-	private List<String> newsFeed = new ArrayList<String>();
+	private ArrayList<User> followers = new ArrayList<User>();
+	private ArrayList<User> following = new ArrayList<User>();
+	private ArrayList<String> newsFeed = new ArrayList<String>();
 	private ArrayList<String> tweets = new ArrayList<String>();
-	private FeedObserver observer;
 	
 	public User(String createUser)
 	{
 		user = createUser;
-		setObserver();
 	}
 	public String getUserName() 
 	{
@@ -32,27 +30,41 @@ public class User
 	public void followUser(User userID) 
 	{
 		following.add(userID);
-		observer.notifyFollowedUser(this, userID);
-		
+		userID.followed(this);
 	}
 	
 	public void writeTweet(String tweet) 
 	{
 		tweets.add(tweet);
-		observer.notifyFollowersPost(tweet, followers);
+		update(this, tweet);
 	}
 
-	public void update(String user, String tweet) 
+	public User update(User user, String tweet) 
 	{
-		newsFeed.add(user + ": " + tweet);
+		if(following.contains(user))
+		{
+			newsFeed.add(user + ": " + tweet);
+		}
+		return this;
 	}
 	
-	public void update(Observable followers, Object arg1) 
+	public void followed(User follower)
 	{
-		
+		followers.add(follower);
 	}
-	private void setObserver()
+	
+	public boolean isGroup()
 	{
-		observer = new FeedObserver(this);
+		return false;
+	}
+	
+	public ArrayList<String> getTweets()
+	{
+		return tweets;
+	}
+	
+	public List<User> getFollowingList()
+	{
+		return following;
 	}
 }
