@@ -1,32 +1,33 @@
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Observable;
 
 public class UserGroup implements Component
 {
 	private ArrayList<Component> groupMembers = new ArrayList<Component>();
 	private String userGroup;
-	
+	//creates a usergroup with a given name
 	public UserGroup(String groupName) 
 	{
 		userGroup = groupName;
 	}
-	
+	//adds a component to this usergroup
 	public void add(Component comp)
 	{
 		groupMembers.add(comp);
 	}
-	
+	//returns the groups name
 	public String getGroupName() 
 	{
 		return userGroup;
 	}
-
+	//sets the group name
 	public void setGroupName(String groupName)
 	{
 		userGroup = groupName;
 	}
-	
+	//returns a string all the members of this user group
 	public String toString()
 	{
 		String retVal = " ~" + userGroup;
@@ -36,28 +37,25 @@ public class UserGroup implements Component
 		}
 		return retVal;
 	}
-	
-	public Component update(User poster, String tweet) 
+	//updates all the members of this user group
+	public void update(Observable poster, Object tweet) 
 	{
-		ArrayList<Component> updateGroupMem = new ArrayList<Component>();
 		for(Component comps: groupMembers)
 		{
-			updateGroupMem.add(comps.update(poster, tweet));
+			comps.update(poster, tweet);
 		}
-		groupMembers = updateGroupMem;
-		return this;
 	}
-	
+	//returns true, saying that this component is a group
 	public boolean isGroup()
 	{
 		return true;
 	}
-	
+	//returns the list of group members
 	public ArrayList<Component> getGroup()
 	{
 		return groupMembers;
 	} 
-	
+	//returns a specific member of a given name
 	public User findUser(String userName, UserGroup group)
 	{
 		ArrayList<Component> groupList = group.getGroup();
@@ -71,12 +69,14 @@ public class UserGroup implements Component
 					return user;
 				}
 			}
+			//if a group, search that group
 			else
 			{
 				UserGroup uGroup = (UserGroup)comp;
 				return findUser(userName, uGroup);
 			}
 		}
+		//if not found, return null
 		return null;
 	}
 }

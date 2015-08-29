@@ -108,7 +108,7 @@ public class Admin extends JFrame
 		 * and the program searches for the first instance of this person 
 		 * to look at.
 		*/
-		//Opens the UserUI TODO: make multiple windows
+		//Opens the UserUI
 		JButton opnUsrView = new JButton("Open User View");
 		opnUsrView.addActionListener(new ActionListener()
 		{

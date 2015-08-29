@@ -6,6 +6,7 @@ public class numPositiveVisitor extends Visitor
 	//count the number of "positive" tweets
 	public int visit(Component userComp) 
 	{
+		//if a group, visit the group's members
 		if(userComp.isGroup())
 		{
 			int num = 0;
@@ -16,6 +17,7 @@ public class numPositiveVisitor extends Visitor
 			}
 			return num;
 		}
+		//else, count the number of positive tweets this user has
 		else
 		{
 			int num = 0;

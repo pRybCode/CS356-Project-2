@@ -50,7 +50,7 @@ public class UserUI extends JFrame
 		final JLabel tweetLabel = new JLabel();
 		final JTextArea newsFeedArea = new JTextArea();
 		
-		//Follow Button Follow User Button TODO
+		//Follow Button Follow User Button
 		JButton btnFollowUser = new JButton("Follow User");
 		btnFollowUser.addActionListener(new ActionListener() 
 		{
@@ -65,6 +65,7 @@ public class UserUI extends JFrame
 		btnFollowUser.setBounds(200, 10, 200, 30);
 		contentPane.add(btnFollowUser);
 		
+		//Creat text areas
 		followArea.setBounds(10, 10, 190, 30);
 		contentPane.add(followArea);
 		
@@ -80,16 +81,13 @@ public class UserUI extends JFrame
 		newsFeedArea.setText(user.newsFeedString());
 		contentPane.add(newsFeedArea);
 		
-		JList<String> tweets = new JList<String>();
-		
-		//Post tweet button TODO
+		//Post tweet button
 		JButton btnTweet = new JButton("Post Tweet");
 		btnTweet.addActionListener( new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				user.writeTweet(tweetArea.getText());
-				
 				newsFeedArea.setText(user.newsFeedString());
 			}
 		});
